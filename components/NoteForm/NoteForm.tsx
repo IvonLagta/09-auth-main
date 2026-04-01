@@ -9,7 +9,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 
-interface NoteFormProps {}
+interface NoteFormProps {
+  onSubmit: (values: CreateNote) => Promise<void>;
+  onCancel: () => void;
+
+  initialData?: Partial<CreateNote>;
+  isLoading?: boolean;
+}
 
 const validationSchema = Yup.object({
   title: Yup.string().min(3).max(50).required("Title is required"),
@@ -19,7 +25,11 @@ const validationSchema = Yup.object({
     .required("Tag is required"),
 });
 
-export default function NoteForm({}: NoteFormProps) {
+export default function NoteForm({
+  onSubmit,
+  onCancel,
+  ...props
+}: NoteFormProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
