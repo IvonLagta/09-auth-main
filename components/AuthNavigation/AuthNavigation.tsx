@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -8,7 +7,6 @@ import css from "./AuthNavigation.module.css";
 
 export default function AuthNavigation() {
   const router = useRouter();
-
   const { user, isAuthenticated, clearIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
@@ -16,10 +14,16 @@ export default function AuthNavigation() {
       await logout();
       clearIsAuthenticated();
       router.push("/sign-in");
+      router.refresh();
     } catch (error) {
       console.error("Logout failed:", error);
+      clearIsAuthenticated();
+      router.push("/sign-in");
     }
   };
+  if (isAuthenticated === undefined) {
+    return null;
+  }
 
   if (isAuthenticated && user) {
     return (
@@ -30,8 +34,13 @@ export default function AuthNavigation() {
           </Link>
         </li>
         <li className={css.navigationItem}>
-          <p className={css.userEmail}>{user.email}</p>
-          <button className={css.logoutButton} onClick={handleLogout}>
+          <p className={css.userEmail}>
+            {user.email || user.username || "User"}
+          </p>
+          <button
+            className={css.logoutButton}
+            onClick={handleLogout}
+            type="button">
             Logout
           </button>
         </li>
