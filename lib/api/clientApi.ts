@@ -1,15 +1,3 @@
-/* 
-fetchNotes
-fetchNoteById
-createNote
-deleteNote
-register
-login
-logout
-checkSession
-getMe
-updateMe */
-
 import { User } from "@/types/user";
 import { nextServer } from "./api";
 import { CreateNote, Note, NoteFilter } from "@/types/note";
@@ -41,8 +29,6 @@ interface UpdateUserData {
   username?: string;
 }
 
-/* Notes */
-
 export const fetchNotes = async (
   params: FetchNotesParams,
 ): Promise<FetchNotesResponse> => {
@@ -73,8 +59,6 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
   const { data }: AxiosResponse<Note> = await nextServer.get(`/notes/${id}`);
   return data;
 };
-
-/* Auth */
 
 export const register = async (userData: RegisterData): Promise<User> => {
   const { data } = await nextServer.post<User>("/auth/register", userData);

@@ -48,6 +48,7 @@ export default function EditProfilePage() {
               type="text"
               className={css.input}
               name="username"
+              defaultValue={user?.username}
             />
           </div>
 
@@ -60,8 +61,7 @@ export default function EditProfilePage() {
             <button
               onClick={() => router.back()}
               type="button"
-              className={css.cancelButton}
-            >
+              className={css.cancelButton}>
               Cancel
             </button>
           </div>
