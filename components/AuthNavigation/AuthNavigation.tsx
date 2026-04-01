@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -21,45 +22,38 @@ export default function AuthNavigation() {
       router.push("/sign-in");
     }
   };
-  if (isAuthenticated === undefined) {
+
+  if (isAuthenticated === null) {
     return null;
   }
 
   if (isAuthenticated && user) {
     return (
       <>
-        <li className={css.navigationItem}>
-          <Link href="/profile" className={css.navigationLink}>
-            Profile
-          </Link>
-        </li>
-        <li className={css.navigationItem}>
-          <p className={css.userEmail}>
-            {user.email || user.username || "User"}
-          </p>
-          <button
-            className={css.logoutButton}
-            onClick={handleLogout}
-            type="button">
-            Logout
-          </button>
-        </li>
+        <Link href="/" className={css.navLink}>
+          Нотатки
+        </Link>
+        <Link href="/profile" className={css.navLink}>
+          Профіль
+        </Link>
+        <span className={css.userInfo}>
+          {user.email || user.username || "Користувач"}
+        </span>
+        <button onClick={handleLogout} className={css.logoutBtn}>
+          Вийти
+        </button>
       </>
     );
   }
-
+  
   return (
     <>
-      <li className={css.navigationItem}>
-        <Link href="/sign-in" className={css.navigationLink}>
-          Login
-        </Link>
-      </li>
-      <li className={css.navigationItem}>
-        <Link href="/sign-up" className={css.navigationLink}>
-          Sign up
-        </Link>
-      </li>
+      <Link href="/sign-in" className={css.navLink}>
+        Login
+      </Link>
+      <Link href="/sign-up" className={css.navLink}>
+        Sign up
+      </Link>
     </>
   );
 }
