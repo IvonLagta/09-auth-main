@@ -8,9 +8,10 @@ import { deleteNote } from "@/lib/api/clientApi";
 
 interface NoteListProps {
   notes: Note[];
+  onDelete?: (id: string) => Promise<void>;
 }
 
-export default function NoteList({ notes }: NoteListProps) {
+export default function NoteList({ notes, onDelete }: NoteListProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -20,9 +21,9 @@ export default function NoteList({ notes }: NoteListProps) {
     },
   });
 
-  const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this note?")) {
-      mutation.mutate(id);
+  const handleDelete = async (id: string) => {
+    if (onDelete) {
+      await onDelete(id);
     }
   };
 
